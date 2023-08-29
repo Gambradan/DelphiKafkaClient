@@ -180,7 +180,7 @@ begin
   FTopics.Clear;
   if FKafkaProducer = nil then Exit;
 
-  topicList := TKafkaHelper.GetTopicList(FKafkaProducer.KafkaHandle);
+  topicList := FKafkaProducer.TopicList;
 
   for I := 0 to High(topicList) do
     FTopics.Add(topicList[I]);
