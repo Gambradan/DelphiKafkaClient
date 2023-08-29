@@ -111,14 +111,13 @@ object frmTopics: TfrmTopics
     Viewport.Height = 196.000000000000000000
     object colPartition: TStringColumn
       Header = 'Partition'
-      Size.Width = 81.000000000000000000
+      Size.Width = 401.000000000000000000
     end
     object colKey: TStringColumn
       Header = 'Key'
     end
     object colPayload: TStringColumn
       Header = 'Payload'
-      Size.Width = 386.000000000000000000
     end
   end
   object tmrUpdate: TTimer

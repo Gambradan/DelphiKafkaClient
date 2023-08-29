@@ -48,6 +48,7 @@ type
     procedure Start;
     procedure Stop;
     procedure Log(const Text: String);
+    procedure UpdateTopicList;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -79,6 +80,7 @@ begin
   FStringEncoding := TEncoding.UTF8;
 
   FTopics := TStringList.Create;
+  FTopics.Sorted := True;
 
   UpdateStatus;
 end;
@@ -140,6 +142,8 @@ begin
       Names,
       Values);
   end;
+
+  UpdateTopicList;
 end;
 
 procedure TfrmTopics.Stop;
@@ -171,7 +175,20 @@ begin
   btnStop.Enabled := FKafkaProducer <> nil;
 
   memKafkaConfig.Enabled := FKafkaProducer = nil;
+end;
 
+procedure TfrmTopics.UpdateTopicList;
+var
+  topicList: TArray<string>;
+  I: Integer;
+begin
+  FTopics.Clear;
+  if FKafkaProducer = nil then Exit;
+
+  topicList := TKafkaHelper.GetTopicList(FKafkaProducer.KafkaHandle);
+
+  for I := 0 to High(topicList) do
+    FTopics.Add(topicList[I]);
 
   TFMXHelper.SetGridRowCount(grdMessages, FTopics.Count);
 end;

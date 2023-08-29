@@ -85,6 +85,7 @@ type
     // Utils
     class function IsKafkaError(const Error: rd_kafka_resp_err_t): Boolean; static;
     class function GetTopicCount(const KafkaHandle: prd_kafka_t): Integer; static;
+    class function GetTopicList(const KafkaHandle: prd_kafka_t): TArray<string>; static;
 
     // Internal
     class procedure FlushLogs;
@@ -620,13 +621,16 @@ begin
 end;
 
 class function TKafkaHelper.GetTopicCount(const KafkaHandle: prd_kafka_t): Integer;
+const
+  ALL_TOPICS_LOCALLY_KNOWN = 0;
+  ALL_TOPICS_IN_CLUSTER = 1;
 var
   err: rd_kafka_resp_err_t;
   pMetadata: Prd_kafka_metadata;
 begin
   err := rd_kafka_metadata_(
     KafkaHandle,
-    0,
+    ALL_TOPICS_LOCALLY_KNOWN,
     nil,
     @pMetadata,
     5000
@@ -640,5 +644,33 @@ begin
   rd_kafka_metadata_destroy(pMetadata);
 end;
 
+class function TKafkaHelper.GetTopicList(const KafkaHandle: prd_kafka_t): TArray<string>;
+const
+  ALL_TOPICS_LOCALLY_KNOWN = 0;
+  ALL_TOPICS_IN_CLUSTER = 1;
+var
+  err: rd_kafka_resp_err_t;
+  pMetadata: Prd_kafka_metadata;
+  pTopics: Prd_kafka_metadata_topic;
+  I: Integer;
+begin
+  err := rd_kafka_metadata_(
+    KafkaHandle,
+    ALL_TOPICS_LOCALLY_KNOWN,
+    nil,
+    @pMetadata,
+    5000
+  );
+
+  if err <> RD_KAFKA_RESP_ERR_NO_ERROR then
+    raise EKafkaError.Create('rd_kafka_metadata_ errorCode ' + String(rd_kafka_err2str(err)));
+
+  pTopics := pMetadata^.topics;
+  SetLength(Result, pMetadata^.topic_cnt);
+  for I := 0 to pMetadata^.topic_cnt - 1 do
+    Result[I] := Prd_kafka_metadata_topic(NativeUInt(pTopics) + I * SizeOf(rd_kafka_metadata_topic))^.topic;
+
+  rd_kafka_metadata_destroy(pMetadata);
+end;
 
 end.
