@@ -23,8 +23,7 @@ type
     btnStop: TButton;
     tmrUpdate: TTimer;
     lblStatus: TLabel;
-    Layout3: TLayout;
-    layKafkaConfiguration: TLayout;
+    layConfig: TLayout;
     Label1: TLabel;
     memKafkaConfig: TMemo;
     grdMessages: TGrid;

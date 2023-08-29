@@ -54,44 +54,39 @@ object frmTopics: TfrmTopics
     Text = 'Idle'
     TabOrder = 1
   end
-  object Layout3: TLayout
+  object layConfig: TLayout
     Align = Top
     Padding.Bottom = 3.000000000000000000
     Margins.Bottom = 3.000000000000000000
     Position.X = 3.000000000000000000
     Position.Y = 3.000000000000000000
     Size.Width = 594.000000000000000000
-    Size.Height = 154.000000000000000000
+    Size.Height = 81.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 3
-    object layKafkaConfiguration: TLayout
-      Align = Left
-      Padding.Right = 2.000000000000000000
-      Size.Width = 473.000000000000000000
-      Size.Height = 151.000000000000000000
+    object Label1: TLabel
+      Align = Top
+      Size.Width = 594.000000000000000000
+      Size.Height = 17.000000000000000000
       Size.PlatformDefault = False
-      object Label1: TLabel
-        Align = Top
-        Size.Width = 471.000000000000000000
-        Size.Height = 17.000000000000000000
-        Size.PlatformDefault = False
-        Text = 'Kafka Configuration'
-      end
-      object memKafkaConfig: TMemo
-        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-        DataDetectorTypes = []
-        Lines.Strings = (
-          'group.id=1')
-        StyledSettings = [Style, FontColor]
-        TextSettings.Font.Family = 'Consolas'
-        TextSettings.Font.Size = 14.000000000000000000
-        Align = Client
-        Size.Width = 471.000000000000000000
-        Size.Height = 134.000000000000000000
-        Size.PlatformDefault = False
-        Viewport.Width = 467.000000000000000000
-        Viewport.Height = 130.000000000000000000
-      end
+      Text = 'Kafka Configuration'
+      TabOrder = 0
+    end
+    object memKafkaConfig: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+      Lines.Strings = (
+        'group.id=1')
+      StyledSettings = [Style, FontColor]
+      TextSettings.Font.Family = 'Consolas'
+      TextSettings.Font.Size = 14.000000000000000000
+      Align = Client
+      Size.Width = 594.000000000000000000
+      Size.Height = 61.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Viewport.Width = 590.000000000000000000
+      Viewport.Height = 57.000000000000000000
     end
   end
   object grdMessages: TGrid
@@ -100,7 +95,7 @@ object frmTopics: TfrmTopics
     ClipChildren = True
     Margins.Bottom = 3.000000000000000000
     Size.Width = 594.000000000000000000
-    Size.Height = 221.000000000000000000
+    Size.Height = 294.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 2
     RowCount = 0
@@ -108,16 +103,16 @@ object frmTopics: TfrmTopics
     OnGetValue = grdMessagesGetValue
     OnResize = grdMessagesResize
     Viewport.Width = 590.000000000000000000
-    Viewport.Height = 196.000000000000000000
+    Viewport.Height = 269.000000000000000000
     object colPartition: TStringColumn
-      Header = 'Partition'
+      Header = 'Topic'
       Size.Width = 401.000000000000000000
     end
     object colKey: TStringColumn
-      Header = 'Key'
+      Header = '?'
     end
     object colPayload: TStringColumn
-      Header = 'Payload'
+      Header = '?'
     end
   end
   object tmrUpdate: TTimer
