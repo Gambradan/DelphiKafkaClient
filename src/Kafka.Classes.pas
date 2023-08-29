@@ -85,6 +85,8 @@ type
     function Produce(const Topic: String; const Payloads: TArray<String>; const Key: String; const Partition: Int32 = RD_KAFKA_PARTITION_UA; const MsgFlags: Integer = RD_KAFKA_MSG_F_COPY; const MsgOpaque: Pointer = nil): Integer; overload;
     function Produce(const Topic: String; const Payloads: TArray<String>; const Key: String; const Encoding: TEncoding; const Partition: Int32 = RD_KAFKA_PARTITION_UA; const MsgFlags: Integer = RD_KAFKA_MSG_F_COPY; const MsgOpaque: Pointer = nil): Integer; overload;
 
+    function TopicExists(const aName: string): Boolean;
+
     property ProducedCount: Int64 read GetProducedCount;
     property TopicCount: Int64 read GetTopicCount;
     property TopicList: TArray<string> read GetTopicList;
@@ -356,6 +358,18 @@ begin
       MsgOpaque);
 
     TInterlocked.Add(FProducedCount, Length(Payloads));
+  finally
+    rd_kafka_topic_destroy(KTopic);
+  end;
+end;
+
+function TKafkaProducer.TopicExists(const aName: string): Boolean;
+var
+  KTopic: Prd_kafka_topic_t;
+begin
+  KTopic := TKafkaHelper.NewTopic(FKafkaHandle, aName, nil);
+  try
+    Result := KTopic <> nil;
   finally
     rd_kafka_topic_destroy(KTopic);
   end;

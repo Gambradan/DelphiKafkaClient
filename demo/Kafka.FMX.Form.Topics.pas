@@ -18,34 +18,36 @@ uses
 
 type
   TfrmTopics = class(TForm)
-    layConsumeControl: TLayout;
     btnStart: TButton;
     btnStop: TButton;
     tmrUpdate: TTimer;
     lblStatus: TLabel;
-    layConfig: TLayout;
     Label1: TLabel;
     memKafkaConfig: TMemo;
     grdMessages: TGrid;
     colPartition: TStringColumn;
     colKey: TStringColumn;
     colPayload: TStringColumn;
-    layLog: TLayout;
     Label2: TLabel;
     memLog: TMemo;
+    btnCheckTopicExists: TButton;
+    btnCreateTopic: TButton;
+    edTopicName: TEdit;
+    btnRefreshList: TButton;
     procedure btnStartClick(Sender: TObject);
     procedure btnStopClick(Sender: TObject);
-    procedure layConsumeControlResize(Sender: TObject);
     procedure tmrUpdateTimer(Sender: TObject);
     procedure grdMessagesGetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
-    procedure grdMessagesResize(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnRefreshListClick(Sender: TObject);
+    procedure btnCheckTopicExistsClick(Sender: TObject);
   private
     FKafkaProducer: IKafkaProducer;
     FKafkaServers: String;
     FStringEncoding: TEncoding;
     FTopics: TStringList;
 
+    procedure Log(aStr: string; aArgs: array of const);
     procedure UpdateStatus;
     procedure Start;
     procedure Stop;
@@ -64,9 +66,23 @@ implementation
 
 {$R *.fmx}
 
+procedure TfrmTopics.btnCheckTopicExistsClick(Sender: TObject);
+begin
+  if FKafkaProducer.TopicExists(edTopicName.Text) then
+    Log('Topic %s exists', [edTopicName.Text])
+  else
+    Log('Topic %s not found', [edTopicName.Text]);
+end;
+
+procedure TfrmTopics.btnRefreshListClick(Sender: TObject);
+begin
+  UpdateTopicList;
+end;
+
 procedure TfrmTopics.btnStartClick(Sender: TObject);
 begin
   Start;
+  UpdateTopicList;
 end;
 
 procedure TfrmTopics.btnStopClick(Sender: TObject);
@@ -116,15 +132,9 @@ begin
   end;
 end;
 
-procedure TfrmTopics.grdMessagesResize(Sender: TObject);
+procedure TfrmTopics.Log(aStr: string; aArgs: array of const);
 begin
-//  StringColumn1.Width := grdMessages.Width - 22;
-end;
-
-procedure TfrmTopics.layConsumeControlResize(Sender: TObject);
-begin
-  btnStart.Width := (layConsumeControl.Width - 20) / 2;
-  layConfig.Width := btnStart.Width;
+  memLog.Lines.Append(Format(aStr, aArgs));
 end;
 
 procedure TfrmTopics.Start;
@@ -139,8 +149,6 @@ begin
       Names,
       Values);
   end;
-
-  UpdateTopicList;
 end;
 
 procedure TfrmTopics.Stop;
@@ -169,6 +177,9 @@ begin
   lblStatus.Text := Format('Status: %s', [statusStr]);
 
   btnStart.Enabled := FKafkaProducer = nil;
+  btnRefreshList.Enabled := FKafkaProducer <> nil;
+  btnCheckTopicExists.Enabled := FKafkaProducer <> nil;
+  btnCreateTopic.Enabled := FKafkaProducer <> nil;
   btnStop.Enabled := FKafkaProducer <> nil;
 
   memKafkaConfig.Enabled := FKafkaProducer = nil;
