@@ -147,6 +147,7 @@ object frmTopics: TfrmTopics
     Size.PlatformDefault = False
     TabOrder = 8
     Text = 'Create topic'
+    OnClick = btnCreateTopicClick
   end
   object edTopicName: TEdit
     Touch.InteractiveGestures = [LongTap, DoubleTap]

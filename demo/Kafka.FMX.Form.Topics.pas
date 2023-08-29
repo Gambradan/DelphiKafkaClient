@@ -41,6 +41,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnRefreshListClick(Sender: TObject);
     procedure btnCheckTopicExistsClick(Sender: TObject);
+    procedure btnCreateTopicClick(Sender: TObject);
   private
     FKafkaProducer: IKafkaProducer;
     FKafkaServers: String;
@@ -69,9 +70,17 @@ implementation
 procedure TfrmTopics.btnCheckTopicExistsClick(Sender: TObject);
 begin
   if FKafkaProducer.TopicExists(edTopicName.Text) then
-    Log('Topic %s exists', [edTopicName.Text])
+    Log('Topic "%s" exists', [edTopicName.Text])
   else
-    Log('Topic %s not found', [edTopicName.Text]);
+    Log('Topic "%s" not found', [edTopicName.Text]);
+end;
+
+procedure TfrmTopics.btnCreateTopicClick(Sender: TObject);
+begin
+  if FKafkaProducer.TopicCreate(edTopicName.Text) then
+    Log('Topic "%s" created', [edTopicName.Text])
+  else
+    Log('Topic "%s" failed to create', [edTopicName.Text]);
 end;
 
 procedure TfrmTopics.btnRefreshListClick(Sender: TObject);
@@ -145,9 +154,7 @@ begin
   begin
     TKafkaUtils.StringsToConfigArrays(memKafkaConfig.Lines, Names, Values);
 
-    FKafkaProducer := TKafkaFactory.NewProducer(
-      Names,
-      Values);
+    FKafkaProducer := TKafkaFactory.NewProducer(Names, Values);
   end;
 end;
 
