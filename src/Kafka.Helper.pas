@@ -84,6 +84,7 @@ type
 
     // Utils
     class function IsKafkaError(const Error: rd_kafka_resp_err_t): Boolean; static;
+    class function GetTopicCount(const KafkaHandle: prd_kafka_t): Integer; static;
 
     // Internal
     class procedure FlushLogs;
@@ -616,6 +617,27 @@ begin
     Partition,
     MsgFlags,
     MsgOpaque);
+end;
+
+class function TKafkaHelper.GetTopicCount(const KafkaHandle: prd_kafka_t): Integer;
+var
+  err: rd_kafka_resp_err_t;
+  pMetadata: Prd_kafka_metadata;
+begin
+  err := rd_kafka_metadata_(
+    KafkaHandle,
+    0,
+    nil,
+    @pMetadata,
+    5000
+  );
+
+  if err <> RD_KAFKA_RESP_ERR_NO_ERROR then
+    raise EKafkaError.Create('rd_kafka_metadata_ errorCode ' + String(rd_kafka_err2str(err)));
+
+  Result := pMetadata^.topic_cnt;
+
+  rd_kafka_metadata_destroy(pMetadata);
 end;
 
 
