@@ -30,6 +30,9 @@ type
     colPartition: TStringColumn;
     colKey: TStringColumn;
     colPayload: TStringColumn;
+    layLog: TLayout;
+    Label2: TLabel;
+    memLog: TMemo;
     procedure btnStartClick(Sender: TObject);
     procedure btnStopClick(Sender: TObject);
     procedure layConsumeControlResize(Sender: TObject);

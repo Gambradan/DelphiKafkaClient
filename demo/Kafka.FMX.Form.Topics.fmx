@@ -63,7 +63,7 @@ object frmTopics: TfrmTopics
     Size.Width = 594.000000000000000000
     Size.Height = 81.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 3
+    TabOrder = 4
     object Label1: TLabel
       Align = Top
       Size.Width = 594.000000000000000000
@@ -95,7 +95,7 @@ object frmTopics: TfrmTopics
     ClipChildren = True
     Margins.Bottom = 3.000000000000000000
     Size.Width = 594.000000000000000000
-    Size.Height = 294.000000000000000000
+    Size.Height = 210.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 2
     RowCount = 0
@@ -103,7 +103,7 @@ object frmTopics: TfrmTopics
     OnGetValue = grdMessagesGetValue
     OnResize = grdMessagesResize
     Viewport.Width = 590.000000000000000000
-    Viewport.Height = 269.000000000000000000
+    Viewport.Height = 185.000000000000000000
     object colPartition: TStringColumn
       Header = 'Topic'
       Size.Width = 401.000000000000000000
@@ -120,5 +120,38 @@ object frmTopics: TfrmTopics
     OnTimer = tmrUpdateTimer
     Left = 24
     Top = 120
+  end
+  object layLog: TLayout
+    Align = Bottom
+    Padding.Bottom = 3.000000000000000000
+    Margins.Bottom = 3.000000000000000000
+    Position.X = 3.000000000000000000
+    Position.Y = 300.000000000000000000
+    Size.Width = 594.000000000000000000
+    Size.Height = 81.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    object Label2: TLabel
+      Align = Top
+      Size.Width = 594.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Log'
+      TabOrder = 0
+    end
+    object memLog: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+      StyledSettings = [Style, FontColor]
+      TextSettings.Font.Family = 'Consolas'
+      TextSettings.Font.Size = 14.000000000000000000
+      Align = Client
+      Size.Width = 594.000000000000000000
+      Size.Height = 61.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Viewport.Width = 590.000000000000000000
+      Viewport.Height = 57.000000000000000000
+    end
   end
 end
