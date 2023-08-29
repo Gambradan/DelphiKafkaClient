@@ -47,7 +47,6 @@ type
     procedure UpdateStatus;
     procedure Start;
     procedure Stop;
-    procedure Log(const Text: String);
     procedure UpdateTopicList;
   public
     constructor Create(AOwner: TComponent); override;
@@ -124,10 +123,6 @@ procedure TfrmTopics.layConsumeControlResize(Sender: TObject);
 begin
   btnStart.Width := (layConsumeControl.Width - 20) / 2;
   layKafkaConfiguration.Width := btnStart.Width;
-end;
-
-procedure TfrmTopics.Log(const Text: String);
-begin
 end;
 
 procedure TfrmTopics.Start;
