@@ -124,7 +124,7 @@ end;
 procedure TfrmTopics.layConsumeControlResize(Sender: TObject);
 begin
   btnStart.Width := (layConsumeControl.Width - 20) / 2;
-  layKafkaConfiguration.Width := btnStart.Width;
+  layConfig.Width := btnStart.Width;
 end;
 
 procedure TfrmTopics.Start;
