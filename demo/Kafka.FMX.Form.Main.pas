@@ -49,6 +49,7 @@ type
     colLogText: TStringColumn;
     colCallbackTimestamp: TStringColumn;
     colDebugType: TStringColumn;
+    btnListTopics: TButton;
     procedure tmrUpdateTimer(Sender: TObject);
     procedure ActionList1Update(Action: TBasicAction; var Handled: Boolean);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -58,6 +59,7 @@ type
     procedure actNewConsumerExecute(Sender: TObject);
     procedure grdCallbackLogGetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
     procedure grdDebugLogGetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
+    procedure btnListTopicsClick(Sender: TObject);
   private
     FStringEncoding: TEncoding;
     FKafkaConsumer: IKafkaConsumer;
@@ -81,7 +83,8 @@ implementation
 
 uses
   Kafka.FMX.Form.Producer,
-  Kafka.FMX.Form.Consumer;
+  Kafka.FMX.Form.Consumer,
+  Kafka.FMX.Form.Topics;
 
 { TfrmKafkaDemo }
 
@@ -137,6 +140,11 @@ begin
   begin
     Execute(edtKafkaServer.Text);
   end;
+end;
+
+procedure TfrmKafkaDemo.btnListTopicsClick(Sender: TObject);
+begin
+  TfrmTopics.Create(Self).Execute(edtKafkaServer.Text);
 end;
 
 procedure TfrmKafkaDemo.ActionList1Update(Action: TBasicAction; var Handled: Boolean);

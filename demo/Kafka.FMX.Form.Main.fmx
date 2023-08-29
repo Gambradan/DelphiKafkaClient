@@ -179,6 +179,18 @@ object frmKafkaDemo: TfrmKafkaDemo
       Size.Height = 25.000000000000000000
       Size.PlatformDefault = False
     end
+    object btnListTopics: TButton
+      Align = Left
+      Margins.Right = 5.000000000000000000
+      Position.X = 623.000000000000000000
+      Position.Y = 18.000000000000000000
+      Size.Width = 169.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 38
+      Text = 'List topics'
+      OnClick = btnListTopicsClick
+    end
   end
   object ActionList1: TActionList
     OnUpdate = ActionList1Update

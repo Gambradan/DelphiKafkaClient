@@ -67,6 +67,7 @@ type
 
     function GetKafkaHandle: prd_kafka_t;
     function GetProducedCount: Int64;
+    function GetTopicCount: Int64;
   protected
     FKafkaHandle: prd_kafka_t;
     FConfiguration: prd_kafka_conf_t;
@@ -84,6 +85,7 @@ type
     function Produce(const Topic: String; const Payloads: TArray<String>; const Key: String; const Encoding: TEncoding; const Partition: Int32 = RD_KAFKA_PARTITION_UA; const MsgFlags: Integer = RD_KAFKA_MSG_F_COPY; const MsgOpaque: Pointer = nil): Integer; overload;
 
     property ProducedCount: Int64 read GetProducedCount;
+    property TopicCount: Int64 read GetTopicCount;
     property KafkaHandle: prd_kafka_t read GetKafkaHandle;
   end;
 
@@ -242,6 +244,11 @@ end;
 function TKafkaProducer.GetProducedCount: Int64;
 begin
   TInterlocked.Exchange(Result, FProducedCount);
+end;
+
+function TKafkaProducer.GetTopicCount: Int64;
+begin
+  Result := TKafkaHelper.GetTopicCount(FKafkaHandle);
 end;
 
 function TKafkaProducer.Produce(const Topic: String; const Payload: String; const Key: String; const Partition: Int32; const MsgFlags: Integer;

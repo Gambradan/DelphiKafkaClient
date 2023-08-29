@@ -12,6 +12,7 @@ uses
   Kafka.Helper in '..\src\Kafka.Helper.pas',
   Kafka.FMX.Form.Producer in 'Kafka.FMX.Form.Producer.pas' {frmProducer},
   Kafka.FMX.Form.Consumer in 'Kafka.FMX.Form.Consumer.pas' {frmConsumer},
+  Kafka.FMX.Form.Topics in 'Kafka.FMX.Form.Topics.pas' {frmTopics},
   Kafka.FMX.Helper in 'Kafka.FMX.Helper.pas';
 
 {$R *.res}
